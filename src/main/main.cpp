@@ -1,8 +1,8 @@
-#include "../lib/subfolder/lib.h"
+#include "../lib/subfolder/lib.hpp"
+
 int main(void)
 {
-	Lib* opencl = new Lib();
+	CLContext* opencl = new CLContext();
 	opencl->run();
-	delete opencl;
 	return 0;
 }

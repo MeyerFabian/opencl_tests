@@ -1,4 +1,5 @@
-#include "lib.h"
+#include "lib.hpp"
+#include "test.hpp"
 
 const char * helloStr  = "__kernel void "
 		"hello(void) "
@@ -6,17 +7,16 @@ const char * helloStr  = "__kernel void "
 		"  "
 		"} ";
 
-int Lib::run() {
+int CLContext::run() {
 	cl_int err = CL_SUCCESS;
 	try {
-
 		std::vector<cl::Platform> platforms;
 		cl::Platform::get(&platforms);
+		Empty stuff = Empty();
 		if (platforms.size() == 0) {
 			std::cout << "Platform size 0\n";
 			return -1;
 		}
-
 		// Print number of platforms and list of platforms
 		std::cout << "Platform number is: " << platforms.size() << std::endl;
 		std::string platformVendor;

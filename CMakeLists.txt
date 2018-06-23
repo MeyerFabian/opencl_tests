@@ -2,6 +2,7 @@
  
 cmake_minimum_required (VERSION 3.0.1)
 
+
 function(assign_source_group)
     foreach(_source IN ITEMS ${ARGN})
         if (IS_ABSOLUTE "${_source}")
@@ -19,30 +20,20 @@ endfunction(assign_source_group)
 project (Minimal_OpenCL)
 
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake CACHE PATH "Project specific path. Set manually if it was not found.")
- 
-find_package( OpenCL REQUIRED )
+set(APPNAME minimial_opencl)
+find_package(OpenCL REQUIRED )
 
 include_directories( ${OpenCL_INCLUDE_DIR} )
 
-file(GLOB_RECURSE SOURCE_FILES "src/lib/*.cpp" "src/lib/*.h")
- 
-# Compiler flags
-if (CMAKE_COMPILER_IS_GNUCC)
-    set (CMAKE_CXX_FLAGS "-D_REETRANT -Wall -Wextra -pedantic -Wno-long-long")
-	if (CMAKE_BUILD_TYPE STREQUAL "Debug")
-   	    set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -ggdb -O0")
-	elseif( CMAKE_BUILD_TYPE STREQUAL "Release" )
-	    set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DNDEBUG -O3 -fno-strict-aliasing")
-	endif ()
-endif (CMAKE_COMPILER_IS_GNUCC)
-
+file(GLOB_RECURSE SOURCE_FILES "src/lib/*.cpp" "src/lib/*.hpp")
 
 # Set up executable
-add_executable (minimial_opencl 
+add_executable (${APPNAME} 
 src/main/main.cpp
 )
-target_link_libraries(minimial_opencl 
+target_link_libraries(${APPNAME}
 CL_LIBRARY
+${OpenCL_LIBRARY}
 )
 
 
@@ -53,4 +44,8 @@ list (SORT _variableNames)
 foreach (_variableName ${_variableNames})
     message(STATUS "${_variableName}=${${_variableName}}")
 endforeach()
+
+add_custom_command(TARGET ${APPNAME} PRE_BUILD
+	COMMAND ${CMAKE_COMMAND} -E copy  ${CMAKE_BINARY_DIR}/compile_commands.json ${CMAKE_SOURCE_DIR}
+)
 

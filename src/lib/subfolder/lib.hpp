@@ -1,5 +1,5 @@
-#ifndef LIB_H
-#define LIB_H
+#ifndef CLContext_H
+#define CLContext_H
 
 #define __CL_ENABLE_EXCEPTIONS
 
@@ -9,10 +9,10 @@
 #include <iostream>
 #include <vector>
 
-class Lib {
+class CLContext {
 public:
-	Lib() = default;
-	~Lib() = default;
+	CLContext() = default;
+	~CLContext() = default;
 	int run();
 };
 
